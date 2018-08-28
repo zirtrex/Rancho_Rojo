@@ -1,0 +1,137 @@
+<div class="uk-container" >
+<?php 
+$form = $this->form;
+$form->setAttribute('action', $this->url('pagos', [
+    'controller' => 'index', 
+    'action' => 'generar-pago',
+    'codTerreno' => $this->codTerreno
+]));
+$form->prepare();
+?>
+
+<div class="uk-container">
+	<h3 class="uk-h3"><i uk-icon="icon: bookmark"></i>Generar Pago (<?= $this->terreno->nombre; ?>)</h3>
+
+	<?php echo $this->form()->openTag($form); ?>
+	
+	<?php
+        if ($this->messages):
+            foreach ($this->messages as $msg):
+                ?>
+                <div class="uk-label-success uk-padding-small uk-margin"><?php echo $msg; ?></div>
+            <?php
+            endforeach;
+        endif;
+   	?> 
+	<?php
+        if ($this->errorMessages):
+            foreach ($this->errorMessages as $msg):
+                ?>
+                <div class="uk-label-danger uk-padding-small uk-margin"><?php echo $msg; ?></div>
+            <?php
+            endforeach;
+        endif;
+   	?>
+	
+    <div class="uk-grid" uk-grid>
+    
+    	<div class="uk-width-1-2@m">
+    		<div class="uk-margin">
+    			<div class="">
+    				<?php echo $this->formhidden($form->get('codPago')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('codPago'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('numeroCuota')) ?>
+    			<div class="">
+    				<?php echo $this->formInput($form->get('numeroCuota')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('numeroCuota'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('fechaPago')) ?>
+    			<div class="">
+    				<?php echo $this->formDate($form->get('fechaPago')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('fechaPago'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('formaPago')) ?>
+    			<div class="">
+    				<?php echo $this->formRadio($form->get('formaPago')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('formaPago'));?>
+    			</div>
+    		</div>    		
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('valor')) ?>
+    			<div class="">
+    				<?php echo $this->formInput($form->get('valor')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('valor'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin" uk-margin>
+            	<div uk-form-custom="target: true">
+					<?php echo $this->formFile($form->get('comprobante')); ?>
+					<input class="uk-input uk-form-width-medium" type="text" placeholder="Seleccionar comprobante" disabled>
+				</div>
+				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('comprobante'));?>
+            </div>	
+    		<div class="uk-margin">
+    			<div class="">
+    				<?php echo $this->formhidden($form->get('codTerreno')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('codTerreno'));?>
+    			</div>
+    		</div>    		
+			<div class="uk-margin">
+    			<div class="">
+    				<?php echo $this->formhidden($form->get('codUsuario')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('codUsuario'));?>
+    			</div>
+    		</div>
+    	</div>    	
+
+    </div>
+    
+    <div class="uk-margin">                                                               
+        <?php echo $this->formInput($form->get('boton')); ?>
+    </div>
+                
+	<?php echo $this->form()->closeTag($form);?>
+</div>
+<footer>
+	<ul class="list-unstyled list-inline"></ul>
+</footer>
+</div>

@@ -1,0 +1,149 @@
+<?php // module/Application/view/empleos/index/listar-lotes.phtml: ?>
+
+<?php
+$title = 'Lotes totales';
+$this->headTitle($title);
+?>
+
+<h1 class="uk-text-center"><?= $this->escapeHtml($title) ?></h1>
+
+<hr/>
+
+<?php
+    if ($this->messages):
+        foreach ($this->messages as $msg):
+            ?>
+            <div class="uk-label-success uk-padding-small uk-margin"><?php echo $msg; ?></div>
+        <?php
+        endforeach;
+    endif;
+?>
+<?php
+if ($this->errorMessages):
+    foreach ($this->errorMessages as $msg):
+        ?>
+			<div class="uk-label-danger uk-padding-small uk-margin">                         
+				<?php echo $msg; ?>
+			</div>
+		<?php
+		endforeach;
+	endif;
+?>
+
+<?php if ($this->lotes): ?>
+
+    <table class="uk-table uk-table-hover uk-table-divider uk-table-striped">
+	    <thead>
+	    <tr>
+	        <th>N°</th>			        
+	        <th>Manzana</th>
+	        <th>Código de Lote</th>
+	        <th>Lote</th>
+	        <th>Tamaño</th>
+	        <th>Precio</th>
+	        <th>Inicial</th>
+	        <th>Saldo</th>
+	        <th>Vendido</th>
+	        <th>Fecha Venta</th>
+	        <th>Cuotas</th>	        
+	        <th>Monto a Pagar</th>
+	        <th>Comprador</th>
+	        <th>Teléfono<br>Comprador</th>
+	        <th>Pagos</th>
+	    </tr>
+	    </thead>
+	    <tbody>
+	    <?php
+	    	$i = 0;
+	    	foreach ($this->lotes as $lote) :
+			$i++;
+		?>    
+	    <tr>
+	        <td><?php echo $i;?></td>
+	        
+	        <td><?php echo $this->escapeHtml($lote->manzana);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($lote->codigoLote);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($lote->lote);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($lote->tamanio);?></td>
+	        
+	        <td>$ <?php echo $this->escapeHtml(($lote->precio != 0) ? $lote->precio: "0");?></td>
+	        
+	        <td>$ <?php echo $this->escapeHtml(($lote->inicial != 0) ? $lote->inicial : "0");?></td>
+	        
+	        <td>$ <?php echo $this->escapeHtml(($lote->saldo != 0) ? $lote->saldo: "0");?></td>
+	        
+	        <td><?php echo $this->escapeHtml($lote->vendido);?></td>
+	        
+	        <?php $fecha = ($lote->fechaVenta ? date("Y-m-d", strtotime($lote->fechaVenta)) : ""); ?>
+	        <td><?php echo $this->escapeHtml($fecha);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($lote->cuotas);?></td>
+	        
+	        <td>$ <?php echo $this->escapeHtml(($lote->montoPagar != 0) ? $lote->montoPagar: "0");?></td>
+	        
+	        <td><?php echo $this->escapeHtml($lote->nombresComprador . " " . $lote->apellidosComprador);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($lote->telefonoComprador);?></td>
+	        
+	        <?php 
+	        	if($lote->vendido == "En proceso"){
+                    $action = "generar-pago";
+                    $textoBoton = "Generar Pago";
+	        	}elseif ($lote->vendido == "Libre"){
+                    $action =  "generar-venta";
+                    $textoBoton = "Generar Venta";
+	        	}
+        	?>
+	        <td>
+	        	<a class="uk-button uk-button-link" href=" 
+    	        <?php echo $this->url('pagos', [
+                    'controller' => 'index',
+    	            'action' => $action,
+    	            'codTerreno' => $lote->codTerreno
+    	        ]); ?>"><?php echo $textoBoton; ?></a>
+    	        |
+    	        <a class="uk-button uk-button-link" href=" 
+    	        <?php echo $this->url('terrenos', [
+                    'controller' => 'index',
+                    'action' => 'listar-pagos',
+    	            'codTerreno' => $lote->codTerreno
+                ]); ?>">Ver pagos</a>
+                |
+    	        <a class="uk-button uk-button-link" href=" 
+    	        <?php echo $this->url('admin', [
+                    'controller' => 'index',
+                    'action' => 'editar-terreno',
+    	            'codTerreno' => $lote->codTerreno
+                ]); ?>">Editar Lote</a>
+			</td>
+	    </tr>
+	    <?php endforeach; ?>
+	    </tbody>
+	</table>
+    
+     <?php
+
+     echo $this->paginationControl(
+
+         $this->lotes,
+
+         'sliding',
+
+         'partial/paginator.phtml',
+
+         array(
+             'route' => 'pagos', 'action' => 'index'
+         )
+     );
+     ?>
+    
+<?php else:?>
+	<div class="uk-container uk-padding">
+		<p>¡No se han encontrado resultados!</p>
+		<a class="uk-button uk-button-primary" href="<?php echo $this->url('terrenos', ['action' => 'listar-lotes']); ?>">Volver</a>
+	</div>
+<?php endif;?>
+

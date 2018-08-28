@@ -1,0 +1,160 @@
+<?php // module/Application/view/empleos/index/index.phtml: ?>
+
+<?php //var_dump($this->terrenos);?>
+
+<?php
+    if ($this->messages):
+        foreach ($this->messages as $msg):
+            ?>
+            <div class="uk-label-success uk-padding-small uk-margin"><?php echo $msg; ?></div>
+        <?php
+        endforeach;
+    endif;
+?> 
+<?php
+    if ($this->errorMessages):
+        foreach ($this->errorMessages as $msg):
+            ?>
+            <div class="uk-label-danger uk-padding-small uk-margin"><?php echo $msg; ?></div>
+        <?php
+        endforeach;
+    endif;
+?>
+<div>
+<span class="uk-text-primary">Click en la chincheta para ver los <strong>Lotes</strong> que pertenecen a cada <strong>Manzana</strong>.</span>
+</div>
+<div id="map" style="height: 500px;"></div>
+
+<script>
+  var map;
+  // Create a new blank array for all the listing markers.
+  var markers = [];
+  
+  function initMap() {
+
+	var myLatLng = {lat: -0.57403, lng: -80.38776};
+		
+    // Constructor creates a new map - only center and zoom are required.
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: myLatLng,
+      zoom: 16,
+      //mapTypeId: 'terrain'
+    });
+
+    // Create a marker and set its position.
+    //var locations = <?= $this->terrenos ?>;
+    //console.log(locations);
+    var locations = [
+		{lote: 'Manzana_1', cordenadas: {lat: -0.57504, lng: -80.39363}},
+		{lote: 'Manzana_2', cordenadas: {lat: -0.57286, lng: -80.39361}},
+		{lote: 'Manzana_3', cordenadas: {lat: -0.5723, lng: -80.39269}},
+		{lote: 'Manzana_4', cordenadas: {lat: -0.57222, lng: -80.39174}},
+		{lote: 'Manzana_5', cordenadas: {lat: -0.572, lng: -80.39058}},
+		{lote: 'Manzana_6', cordenadas: {lat: -0.57416, lng: -80.39049}}
+   	];
+
+    //console.log(locations2);
+
+    var largeInfowindow = new google.maps.InfoWindow();
+    var bounds = new google.maps.LatLngBounds();
+
+    // Style the markers a bit. This will be our listing marker icon.
+    var defaultIcon = makeMarkerIcon('52B2E1');
+    // Create a "highlighted location" marker color for when the user
+    // mouses over the marker.
+    var highlightedIcon = makeMarkerIcon('FF0000');
+    
+    // The following group uses the location array to create an array of markers on initialize.
+    for (var i = 0; i < locations.length; i++) {
+      // Get the position from the location array.
+      var position = locations[i].cordenadas;
+      var lote = locations[i].lote;
+      var codigo = locations[i].codigo;
+      var nombre = locations[i].nombre;
+      var precio = locations[i].precio;
+      var vendido = locations[i].vendido;
+      // Create a marker per location, and put into markers array.
+      var marker = new google.maps.Marker({
+        map: map,
+        position: position,
+        lote: lote,
+        codigo: codigo,
+        nombre: nombre,
+        precio: precio,
+        vendido: vendido,
+        animation: google.maps.Animation.DROP,
+        icon: defaultIcon,
+        id: i
+      });
+      // Push the marker to our array of markers.
+      markers.push(marker);
+      // Create an onclick event to open an infowindow at each marker.
+      marker.addListener('click', function() {
+        populateInfoWindow(this, largeInfowindow);
+      });
+      bounds.extend(markers[i].position);
+    }
+    // Extend the boundaries of the map for each marker
+    map.fitBounds(bounds);
+
+    //var src = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml';
+	//var src = 'http://localhost/Grupo_Parada/Terrenos_Wladimir/rancho_rojo_web/public/rancho_rojo.kml';
+	var src = 'http://s385462840.onlinehome.us/ranchorojo.com/public/rancho_rojo_lotes.kml';
+
+	var kmlLayer = new google.maps.KmlLayer(src, {
+        suppressInfoWindows: true,
+        preserveViewport: false,
+        map: map
+      });
+  }
+
+	//This function populates the infowindow when the marker is clicked. We'll only allow
+  // one infowindow which will open at the marker that is clicked, and populate based
+  // on that markers position.
+  function populateInfoWindow(marker, infowindow) {
+	  
+    // Check to make sure the infowindow is not already opened on this marker.
+    if (infowindow.marker != marker) {
+
+        //console.log(marker);
+
+        var url = "<?= $this->url(); ?>terrenos-lote/listar-lotes-por-manzana/" + marker.lote;
+
+    	var contentString = '<div id="uk-panel">'+
+                            	'<h1 class="uk-h2">' + marker.lote + '</h1>'+
+                            	'<div id="bodyContent">'+                         		
+                            		'<p><a class="uk-text-link" href="' +  url  + '">'+
+                                    'Ver Lotes</a></p>'+           		
+                            	'</div>'+
+                            '</div>';
+       
+      	infowindow.marker = marker;
+      	infowindow.setContent(contentString);
+      	infowindow.open(map, marker);
+      	// Make sure the marker property is cleared if the infowindow is closed.
+      	infowindow.addListener('closeclick',function(){
+        	infowindow.setMarker = null;
+      	});
+    }
+  }
+
+  // This function takes in a COLOR, and then creates a new marker
+  // icon of that color. The icon will be 21 px wide by 34 high, have an origin
+  // of 0, 0 and be anchored at 10, 34).
+  function makeMarkerIcon(markerColor) {
+    var markerImage = new google.maps.MarkerImage(
+      'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+      '|40|_|%E2%80%A2',
+      new google.maps.Size(21, 34),
+      new google.maps.Point(0, 0),
+      new google.maps.Point(10, 34),
+      new google.maps.Size(21,34));
+    return markerImage;
+  }
+
+  
+</script>
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOM6J7wOKuh_nZeW40Qm4Cc_7ZvCxX13E&callback=initMap">
+</script>

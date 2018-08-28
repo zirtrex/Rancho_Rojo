@@ -1,0 +1,171 @@
+
+<?php 
+$form = $this->form;
+$form->setAttribute('action', $this->url('terrenos', [
+    'controller' => 'index', 
+    'action' => 'generar-venta',
+    'codTerreno' => $this->codTerreno
+]));
+$form->prepare();
+?>
+<div class="uk-container" >
+<div class="">
+	<h3 class="uk-h3"><i uk-icon="icon: bookmark"></i>Venta de Terreno (<?= $this->terreno->nombre;?>)</h3>
+
+	<?php echo $this->form()->openTag($form); ?>
+	
+	<?php
+        if ($this->messages):
+            foreach ($this->messages as $msg):
+                ?>
+                <div class="uk-label-success uk-padding-small uk-margin"><?php echo $msg; ?></div>
+            <?php
+            endforeach;
+        endif;
+   	?> 
+	<?php
+        if ($this->errorMessages):
+            foreach ($this->errorMessages as $msg):
+                ?>
+                <div class="uk-label-danger uk-padding-small uk-margin"><?php echo $msg; ?></div>
+            <?php
+            endforeach;
+        endif;
+   	?>
+	
+    <div class="uk-grid" uk-grid>
+    
+    	<div class="uk-width-1-2@m">
+    		<div class="uk-margin">
+    			<div class="">
+    				<?php echo $this->formhidden($form->get('codTerreno')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('codTerreno'));?>
+    			</div>
+    		</div>
+			<div class="uk-margin">
+    			<div class="">
+    				<?php echo $this->formhidden($form->get('lote')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('lote'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('precio')) ?>
+    			<div class="">
+    				<?php echo $this->formInput($form->get('precio')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('precio'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('inicial')) ?>
+    			<div class="">
+    				<?php echo $this->formInput($form->get('inicial')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('inicial'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('fechaVenta')) ?>
+    			<div class="">
+    				<?php echo $this->formDate($form->get('fechaVenta')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('fechaVenta'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('cuotas')) ?>
+    			<div class="">
+    				<?php echo $this->formSelect($form->get('cuotas')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('cuotas'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('montoPagar')) ?>
+    			<div class="">
+    				<?php echo $this->formInput($form->get('montoPagar')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('montoPagar'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('cedulaComprador')) ?>
+    			<div class="">
+    				<?php echo $this->formInput($form->get('cedulaComprador')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('cedulaComprador'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('nombresComprador')) ?>
+    			<div class="">
+    				<?php echo $this->formInput($form->get('nombresComprador')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('nombresComprador'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('apellidosComprador')) ?>
+    			<div class="">
+    				<?php echo $this->formInput($form->get('apellidosComprador')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('apellidosComprador'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('telefonoComprador')) ?>
+    			<div class="">
+    				<?php echo $this->formInput($form->get('telefonoComprador')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('telefonoComprador'));?>
+    			</div>
+    		</div>    		
+    	</div>    	
+
+    </div>
+    
+    <div class="uk-margin">                                                               
+        <?php echo $this->formInput($form->get('boton')); ?>
+    </div>
+                
+	<?php echo $this->form()->closeTag($form);?>
+</div>
+<footer>
+	<ul class="list-unstyled list-inline"></ul>
+</footer>
+</div>

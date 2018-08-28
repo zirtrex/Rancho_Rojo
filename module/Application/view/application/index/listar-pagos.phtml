@@ -1,0 +1,99 @@
+<?php // module/Application/view/empleos/index/listar-pagos.phtml: ?>
+
+<?php
+$title = "Pagos - " . $this->terreno->manzana . " Lote: " . $this->terreno->lote;
+$this->headTitle($title);
+?>
+
+<h1 class="uk-text-center"><?= $this->escapeHtml($title) ?></h1>
+<hr/>
+
+<?php
+    if ($this->messages):
+        foreach ($this->messages as $msg):
+            ?>
+            <div class="uk-label-success uk-padding-small uk-margin"><?php echo $msg; ?></div>
+        <?php
+        endforeach;
+    endif;
+?>
+<?php
+if ($this->errorMessages):
+    foreach ($this->errorMessages as $msg):
+        ?>
+			<div class="uk-label-danger uk-padding-small uk-margin">                         
+				<?php echo $msg; ?>
+			</div>
+		<?php
+		endforeach;
+	endif;
+?>
+
+<?php if($this->pagos->count() != 0):?>
+	<table class="uk-table uk-table-divider uk-table-striped">
+	    <thead>
+	    <tr>
+	        <th>N°</th>
+	        <th>Codigo de lote</th>	        
+	        <th>N° de cuota</th>	        
+	        <th>Fecha de Pago</th>
+	        <th>Forma de pago</th>
+	        <th>Valor</th>	        
+	        <th>Saldo a la Fecha</th>	        
+	        <th>Comprador</th>
+	        <th>Comprobante</th>
+	    </tr>
+	    </thead>
+	    <tbody>
+	    <?php
+	    	$i = 0;
+			foreach ($this->pagos as $pago) :
+			$i++;
+		?>    
+	    <tr>
+	        <td><?php echo $i;?></td>
+	        
+	        <td><?php echo $this->escapeHtml($pago->codigoLote);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($pago->numeroCuota);?></td>
+	        
+	        <?php $fecha = date("Y-m-d", strtotime($pago->fechaPago))?>
+	        <td><?php echo $this->escapeHtml($fecha);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($pago->formaPago);?></td>
+	        
+	        <td>$ <?php echo $this->escapeHtml($pago->valor);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($pago->saldoAFecha);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($pago->nombresComprador . " " . $pago->apellidosComprador);?></td>
+	        
+	        <td style="text-align: center;">
+    	        <?php if($pago->comprobante != ""):?>
+    	        	<a uk-icon="icon: cloud-download" href="<?php echo $this->basePath() . "/comprobantes/" .$this->escapeHtml($pago->comprobante);?>" target="_blank">Descargar </a>
+    	        <?php endif;?>
+	        </td>
+	    </tr>
+	    <?php endforeach; ?>
+	    </tbody>
+	</table>
+	
+	<?php
+         echo $this->paginationControl(
+    
+             $this->pagos,
+    
+             'sliding',
+    
+             'partial/paginator.phtml',
+    
+             array(
+                 'route' => 'pagos', 'action' => 'index'
+             )
+         );
+     ?>
+<?php else: ?>
+	<div class="uk-container uk-padding" >
+		<h2>No se han encontrado resultados</h2>
+	</div>
+<?php endif;?>

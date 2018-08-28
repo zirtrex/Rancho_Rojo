@@ -1,0 +1,104 @@
+<?= $this->doctype() ?>
+
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <?= $this->headTitle('Rancho Rojo')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?= $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.png'])
+            ->prependStylesheet($this->basePath('css/style.css'))
+            ->prependStylesheet($this->basePath('css/uikit.css'))
+        ?>
+
+        <!-- Scripts -->
+        <?= $this->headScript()
+            ->prependFile('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js')
+            ->prependFile($this->basePath('js/users_custom.js'))
+            ->prependFile($this->basePath('js/custom.js'))
+            ->prependFile($this->basePath('js/uikit-icons.min.js'))
+            ->prependFile($this->basePath('js/uikit.min.js'))
+            ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
+        ?>
+    </head>
+    <body>
+        <div class="uk-offcanvas-content" uk-height-viewport>
+                
+            <div id="offcanvas-usage" uk-offcanvas="flip: true; mode; mode: reveal; overlay: true">
+                <div class="uk-offcanvas-bar">        
+                    <button class="uk-offcanvas-close" type="button" uk-close></button>
+                        <?php 
+                    	   echo $this->navigation('navigation')
+                                  ->menu()
+                                  ->setMinDepth(0)
+                                  ->setMaxDepth(0)
+                                  ->setUlClass('uk-nav uk-nav-primary');
+                        ?>
+                </div>
+            </div>        
+                    			
+        	<div class="uk-background-secondary tm-toolbar uk-clearfix uk-hidden-small">
+            	<nav class="uk-container" uk-navbar>
+            		<div class="uk-navbar-right">
+            			<div class="uk-panel widget_nav_menu">
+            			<ul class="uk-navbar-nav">
+            				<?php if($this->identity()):?>
+                				<li><a href="<?= $this->url('perfil') ?>" class="">
+                					<span uk-icon="icon: user"></span>Bienvenido: &nbsp;&nbsp;<strong> <?= $this->identity()['usuario'] ?></strong></a>
+                					<div class="uk-navbar-dropdown uk-background-secondary">
+                						<ul class="uk-nav uk-navbar-dropdown-nav">
+                							<li><a href="<?= $this->url('perfil') ?>" class="">Perfil</a></li>
+                							<li><a href="<?= $this->url('salir') ?>" class="">Salir</a></li>
+                						</ul>
+                					</div>
+                				</li>
+            				<?php else: ?>
+            					<li><a href="<?= $this->url('ingresar') ?>" class="">Iniciar sesión</a></li>
+            				<?php endif;?>        				
+            			</ul>
+            			</div>
+            		</div>            
+            	</nav>
+            </div>
+            
+            <nav class="uk-navbar uk-navbar-container uk-margin-collapse" uk-navbar>
+            	<div class="uk-navbar-left">
+            		<a class="uk-navbar-item uk-logo" href="<?= $this->url('home') ?>">
+                       Rancho Rojo <?= \Application\Module::VERSION ?>
+                    </a>                                        
+                </div>                
+        		<div class="uk-navbar-right">
+        			<div class="uk-visible@m uk-visible@l uk-margin-right">
+                    	<?php 
+                    	   echo $this->navigation('navigation')
+                                  ->menu()
+                                  ->setMinDepth(0)
+                                  ->setMaxDepth(0)
+                                  ->setUlClass('uk-navbar-nav');
+                        ?>
+                    </div>
+        			<a class="uk-navbar-toggle uk-hidden@m uk-hidden@l" href="#offcanvas-usage" uk-toggle>
+                       <span class="uk-margin-small-right">Menu</span> <span uk-navbar-toggle-icon></span> 
+                    </a>
+        		</div>
+            </nav>
+            
+            <div class="">
+                <?php echo $this->content; ?>
+            </div>    
+            <hr>
+            <footer class="uk-container uk-margin-left uk-margin-bottom">
+                <strong>&copy; <?= date('Y') ?> por Inlanet. Todos los derechos reservados. | <?= \Application\Module::VERSION ?></strong>
+            </footer>
+            
+                        
+            
+        	<?= $this->inlineScript() ?>
+        </div><!-- FIN OFF CANVAS -->
+    </body>    
+</html>
