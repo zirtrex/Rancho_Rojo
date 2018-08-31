@@ -1,0 +1,4 @@
+codUsuario,rol,usuario,clave,nombres,primerApellido,segundoApellido,imagenPerfil
+NULL,admin,zirtrex,zirtrex,Rafael,Contreras,Martinez,NULL
+NULL,user,manchundia,manchundia,"MARIA EULALIA",ANCHUNDIA,PARRALES,NULL
+NULL,admin,admin,admin,Admin,Admin,Admin,NULL

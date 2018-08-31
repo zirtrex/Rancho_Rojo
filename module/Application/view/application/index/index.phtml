@@ -10,7 +10,7 @@
         <?php
         endforeach;
     endif;
-?> 
+?>
 <?php
     if ($this->errorMessages):
         foreach ($this->errorMessages as $msg):
@@ -29,11 +29,11 @@
   var map;
   // Create a new blank array for all the listing markers.
   var markers = [];
-  
+
   function initMap() {
 
 	var myLatLng = {lat: -0.57403, lng: -80.38776};
-		
+
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
       center: myLatLng,
@@ -49,8 +49,37 @@
 		{lote: 'Manzana_2', cordenadas: {lat: -0.57286, lng: -80.39361}},
 		{lote: 'Manzana_3', cordenadas: {lat: -0.5723, lng: -80.39269}},
 		{lote: 'Manzana_4', cordenadas: {lat: -0.57222, lng: -80.39174}},
+    {lote: 'Manzana_A', cordenadas: {lat: -0.57414, lng: -80.39154}},
+    {lote: 'Manzana_B', cordenadas: {lat: -0.57624, lng: -80.39147}},
 		{lote: 'Manzana_5', cordenadas: {lat: -0.572, lng: -80.39058}},
-		{lote: 'Manzana_6', cordenadas: {lat: -0.57416, lng: -80.39049}}
+		{lote: 'Manzana_6', cordenadas: {lat: -0.57416, lng: -80.39049}},
+    {lote: 'Manzana_7', cordenadas: {lat: -0.57641, lng: -80.3905}},
+    {lote: 'Manzana_8', cordenadas: {lat: -0.57192, lng: -80.38932}},
+    {lote: 'Manzana_9', cordenadas: {lat: -0.57431, lng: -80.38936}},
+    {lote: 'Manzana_10', cordenadas: {lat: -0.57638, lng: -80.38939}},
+    {lote: 'Manzana_11', cordenadas: {lat: -0.57169, lng: -80.38822}},
+    {lote: 'Manzana_D', cordenadas: {lat: -0.57431, lng: -80.38823}},
+    {lote: 'Manzana_D-A', cordenadas: {lat: -0.57381, lng: -80.38825}},
+    {lote: 'Manzana_C', cordenadas: {lat: -0.57642, lng: -80.38689}},
+    {lote: 'Manzana_E-1', cordenadas: {lat: -0.57425, lng: -80.38737}},
+    {lote: 'Manzana_E-2', cordenadas: {lat: -0.57423, lng: -80.38683}},
+    {lote: 'Manzana_12', cordenadas: {lat: -0.57177, lng: -80.38708}},
+    {lote: 'Manzana_13', cordenadas: {lat: -0.57188, lng: -80.386}},
+    {lote: 'Manzana_14', cordenadas: {lat: -0.57431, lng: -80.38592}},
+    {lote: 'Manzana_15', cordenadas: {lat: -0.57673, lng: -80.38587}},
+    {lote: 'Manzana_16', cordenadas: {lat: -0.57198, lng: -80.38476}},
+    {lote: 'Manzana_17', cordenadas: {lat: -0.57428, lng: -80.38473}},
+    {lote: 'Manzana_18', cordenadas: {lat: -0.57684, lng: -80.38472}},
+    {lote: 'Manzana_19', cordenadas: {lat: -0.57201, lng: -80.38355}},
+    {lote: 'Manzana_20', cordenadas: {lat: -0.5742, lng: -80.38355}},
+    {lote: 'Manzana_21', cordenadas: {lat: -0.57207, lng: -80.38231}},
+    {lote: 'Manzana_22', cordenadas: {lat: -0.57421, lng: -80.38229}},
+    {lote: 'Manzana_23', cordenadas: {lat: -0.57213, lng: -80.38109}},
+    {lote: 'Manzana_24', cordenadas: {lat: -0.57419, lng: -80.38107}},
+    {lote: 'Manzana_25', cordenadas: {lat: -0.57632, lng: -80.3811}},
+    {lote: 'Manzana_26', cordenadas: {lat: -0.57216, lng: -80.37988}},
+    {lote: 'Manzana_27', cordenadas: {lat: -0.57457, lng: -80.37969}},
+    {lote: 'Manzana_28', cordenadas: {lat: -0.57413, lng: -80.37829}},
    	];
 
     //console.log(locations2);
@@ -63,7 +92,7 @@
     // Create a "highlighted location" marker color for when the user
     // mouses over the marker.
     var highlightedIcon = makeMarkerIcon('FF0000');
-    
+
     // The following group uses the location array to create an array of markers on initialize.
     for (var i = 0; i < locations.length; i++) {
       // Get the position from the location array.
@@ -112,7 +141,7 @@
   // one infowindow which will open at the marker that is clicked, and populate based
   // on that markers position.
   function populateInfoWindow(marker, infowindow) {
-	  
+
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
 
@@ -122,12 +151,12 @@
 
     	var contentString = '<div id="uk-panel">'+
                             	'<h1 class="uk-h2">' + marker.lote + '</h1>'+
-                            	'<div id="bodyContent">'+                         		
+                            	'<div id="bodyContent">'+
                             		'<p><a class="uk-text-link" href="' +  url  + '">'+
-                                    'Ver Lotes</a></p>'+           		
+                                    'Ver Lotes</a></p>'+
                             	'</div>'+
                             '</div>';
-       
+
       	infowindow.marker = marker;
       	infowindow.setContent(contentString);
       	infowindow.open(map, marker);
@@ -152,7 +181,7 @@
     return markerImage;
   }
 
-  
+
 </script>
 
 <script async defer
