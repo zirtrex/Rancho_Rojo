@@ -1,5 +1,5 @@
 # Composer files
-vendor/
+#vendor/
 
 # Local configs
 config/autoload/*.local.php
