@@ -167,8 +167,10 @@ class IndexController extends AbstractActionController
                     $comprobante = explode("\\", $comprobantePrev['tmp_name']);
 
                     $terreno = $this->terrenosTable->obtenerTerreno($pago->codTerreno);
+                    
+                    $totalPagos = $this->pagosTable->obtenerTotalPagos(['codTerreno' => $codTerreno]);
 
-                    $nuevoSaldo = $terreno->saldo - $pago->valor;
+                    $nuevoSaldo = $terreno->precio - $terreno->inicial - $totalPagos['total'] - $pago->valor;
                     $terreno->saldo = $nuevoSaldo;
 
                     $codTerreno =  $this->terrenosTable->guardarTerreno($terreno);
@@ -184,8 +186,8 @@ class IndexController extends AbstractActionController
 
                             $this->flashmessenger()->addMessage("Pago N°" . $codPago . ", a la " . $terreno->manzana. " Lote: " . $terreno->lote . ", agregado correctamente.");
 
-                            return $this->redirect()->toRoute('home');
-                            //return $this->redirect()->toRoute('pagos', array('controller' => 'index'/*, 'action' => 'listar-pagos'*/));
+                            //return $this->redirect()->toRoute('home');
+                            return $this->redirect()->toRoute('terrenos', ['action' => 'listar-pagos', 'codTerreno' => $codTerreno]);
 
                         }
 

@@ -43,25 +43,18 @@ class PagosTable
         return $resultSet;
     }
     
-    public function obtenerPagosByCodTerreno($codTerreno, $paginado = true)
+    public function obtenerPagosByCodTerreno($codTerreno)
     {
-        if ($paginado) {
-
-            $select = new Select();
-            
-            $select->from('vw_pagos')
-                ->order('fechaPago DESC');
-            
-            if($codTerreno !== null){ $select->where(array('codTerreno' => $codTerreno)); }
-            
-            $paginatorAdapter = new DbSelect($select, $this->tableGateway->getAdapter(), null/*$resultSetPrototype*/);
-            
-            $paginator = new Paginator($paginatorAdapter);
-            
-            return $paginator;
-        }
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = new Select();
         
-        $resultSet = $this->tableGateway->select();
+        $select->from('vw_pagos')
+            ->order('fechaPago DESC');
+        
+        $select->where(['codTerreno' => $codTerreno]);
+        
+        $resultSet = $this->tableGateway->selectWith($select);
+
         return $resultSet;
     }
     
@@ -125,7 +118,7 @@ class PagosTable
 
     public function obtenerPago($codPago)
     {
-        $sql = new Sql($this->tableGateway->getAdapter());
+        /*$sql = new Sql($this->tableGateway->getAdapter());
         $select = $sql->select();
         
         $select->from('pagos')
@@ -133,7 +126,11 @@ class PagosTable
                 ->where(array('codPago' => $codPago));
         
         $statement = $sql->prepareStatementForSqlObject($select);
-        $row = $statement->execute();
+        $row = $statement->execute();*/
+        
+        $codPago= (int) $codPago;
+        $rowset = $this->tableGateway->select(['codPago' => $codPago]);
+        $row = $rowset->current();
         
         if (! $row) {
             throw new RuntimeException(sprintf(
@@ -141,7 +138,7 @@ class PagosTable
             ));
         }
 
-        return $row->current();
+        return $row;
     }
 
     public function guardarPago(Pagos $pago)
@@ -178,7 +175,7 @@ class PagosTable
 
     public function eliminarPago($codPago)
     {
-        $this->tableGateway->delete(['codPago' => (int) $codPago]);
+        return $this->tableGateway->delete(['codPago' => (int) $codPago]);
     }
 }
 

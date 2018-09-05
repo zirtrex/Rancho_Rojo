@@ -158,24 +158,8 @@ class TerrenoForm extends Form
                     'No' => 'No'
                 ],
             )
-        ));
+        ));       
         
-        $this->add(array(
-            'name' => 'vendido',
-            'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
-                'id' => 'vendido',
-                'class' => 'uk-select'
-            ),
-            'options' => array(
-                'label' => 'Vendido',
-                'value_options' => [
-                    'Si' => 'Si',
-                    'Libre' => 'Libre',
-                    'En proceso' => 'En proceso'
-                ],
-            )
-        ));
         
         $this->add(array(
             'name' => 'precio',
@@ -208,6 +192,23 @@ class TerrenoForm extends Form
                 'label_attributes' => array(
                     'class' => ''
                 )
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'vendido',
+            'type' => 'Zend\Form\Element\Select',
+            'attributes' => array(
+                'id' => 'vendido',
+                'class' => 'uk-select'
+            ),
+            'options' => array(
+                'label' => 'Vendido',
+                'value_options' => [
+                    'Si' => 'Si',
+                    'Libre' => 'Libre',
+                    'En proceso' => 'En proceso'
+                ],
             )
         ));
         

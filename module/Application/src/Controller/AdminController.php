@@ -38,7 +38,10 @@ class AdminController extends AbstractActionController
     
     public function indexAction()
     {        
-        return new ViewModel([]);
+        return new ViewModel([
+            'messages' => $this->flashmessenger()->getMessages(),
+            'errorMessages' => $this->flashmessenger()->getErrorMessages()
+        ]);
     }    
     
     public function agregarTerrenoAction()
@@ -124,7 +127,7 @@ class AdminController extends AbstractActionController
             
             $form->setInputFilter(new TerrenoFilter());
             //$form->setValidationGroup(array('codTerreno', 'manzana', 'lote', 'precio', 'fechaVenta', 'cuotas', 'montoPagar', 'nombresComprador', 'apellidosComprador', 'telefonoComprador'));
-            $form->setValidationGroup(array('codTerreno', 'manzana', 'lote', 'tamanio', 'escrituras', 'registroPropiedad', 'precio', 'inicial'));
+            $form->setValidationGroup(array('codTerreno', 'manzana', 'lote', 'tamanio', 'escrituras', 'registroPropiedad', 'precio', 'inicial', 'vendido', 'fechaVenta', 'cedulaComprador', 'nombresComprador', 'apellidosComprador', 'telefonoComprador'));
             
             $form->setData($request->getPost());
             
@@ -159,6 +162,69 @@ class AdminController extends AbstractActionController
             'errorMessages' => $this->flashmessenger()->getErrorMessages()
         ]);
         
+        } else {
+            return $this->redirect()->toRoute('ingresar');
+        }
+    }
+    
+    public function eliminarPagoAction()
+    {
+        if ($this->identity()) {
+            
+            $codTerreno = (int) $this->params()->fromRoute('codTerreno', 0);
+            $codPago = (int) $this->params()->fromRoute('codPago', 0); // \Zend\Debug\Debug::dump($codPago); return;
+            
+            if (0 === $codPago) {
+                $this->flashmessenger()->addErrorMessage("Debe elegir un pago 1.");
+                return $this->redirect()->toRoute('terrenos', ['action'=>'listar-pagos', 'codTerreno' => $codTerreno]);
+            }
+            
+            try {
+                $pago = $this->pagosTable->obtenerPago($codPago);
+            } catch (RuntimeException $e) {
+                $this->flashmessenger()->addErrorMessage("Debe elegir un pago 2.");
+                return $this->redirect()->toRoute('terrenos', ['action'=>'listar-pagos', 'codTerreno' => $codTerreno]);
+            }     
+            
+            $request = $this->getRequest();
+            
+            if ($request->isPost()) {
+                $del = $request->getPost('del', 'No');
+                
+                if ($del == 'Si') {
+                
+                    $codPago =  $this->pagosTable->eliminarPago($pago->codPago); //\Zend\Debug\Debug::dump($codPago); return; 
+                    
+                    if($codPago){
+                        
+                        $terreno = $this->terrenosTable->obtenerTerreno($pago->codTerreno);
+                        
+                        $totalPagos = $this->pagosTable->obtenerTotalPagos(['codTerreno' => $pago->codTerreno]);
+                        
+                        $nuevoSaldo = $terreno->precio - $terreno->inicial - $totalPagos['total'];
+                        $terreno->saldo = $nuevoSaldo;
+                        
+                        $codTerreno =  $this->terrenosTable->guardarTerreno($terreno);
+                        
+                        if($codTerreno){
+                            
+                            $this->flashmessenger()->addMessage("Pago N°" . $pago->codPago. ", a la " . $terreno->manzana. " Lote: " . $terreno->lote . ", eliminado correctamente.");
+                            
+                            return $this->redirect()->toRoute('terrenos', ['action'=>'listar-pagos', 'codTerreno' => $codTerreno]);                            
+                            
+                        }
+                        
+                    }
+                }
+                // Redirect al listado de pagos
+                return $this->redirect()->toRoute('terrenos', ['action'=>'listar-pagos', 'codTerreno' => $codTerreno]);
+            }
+            return [
+                'codTerreno'    => $codTerreno,
+                'codPago'       => $codPago,
+                'pago'          => $pago,
+            ];
+            
         } else {
             return $this->redirect()->toRoute('ingresar');
         }

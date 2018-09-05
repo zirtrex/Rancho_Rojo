@@ -40,11 +40,13 @@ class ReporteController extends AbstractActionController
     {
         $totalTerrenos = $this->terrenosTable->obtenerTerrenosCount();  //var_dump($totalTerrenos); return;
         $totalVendidos = $this->terrenosTable->obtenerTerrenosCount(['vendido' => 'Si']);
+        $totalEnProceso = $this->terrenosTable->obtenerTerrenosCount(['vendido' => 'En proceso']);
         $totalSinVender = $this->terrenosTable->obtenerTerrenosCount(['vendido' => 'Libre']);
          
         return new ViewModel([
             'totalTerrenos' => $totalTerrenos["total"],
             'totalVendidos' => $totalVendidos["total"],
+            'totalEnProceso' => $totalEnProceso["total"],
             'totalSinVender' => $totalSinVender["total"],
             'messages' => $this->flashmessenger()->getMessages(),
             'errorMessages' => $this->flashmessenger()->getErrorMessages()

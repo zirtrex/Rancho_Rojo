@@ -1,4 +1,4 @@
-<?php // module/Application/view/empleos/index/listar-pagos.phtml: ?>
+<?php // module/Application/view/application/index/listar-pagos.phtml: ?>
 
 <?php
 $title = "Pagos - " . $this->terreno->manzana . " Lote: " . $this->terreno->lote;
@@ -35,6 +35,7 @@ if ($this->errorMessages):
 	    <tr>
 	        <th>N°</th>
 	        <th>Codigo de lote</th>
+	        <th>Lote</th>
 	        <th>N° de cuota</th>
 	        <th>Fecha de Pago</th>
 	        <th>Forma de pago</th>
@@ -42,6 +43,7 @@ if ($this->errorMessages):
 	        <th>Saldo a la Fecha</th>
 	        <th>Comprador</th>
 	        <th>Comprobante</th>
+	        <th>Acciones</th>
 	    </tr>
 	    </thead>
 	    <tbody>
@@ -51,9 +53,11 @@ if ($this->errorMessages):
 			$i++;
 		?>
 	    <tr>
-	        <td><?php echo $i;?></td>
+	        <td><?php echo $this->escapeHtml($pago->codPago);;?></td>
 
-	        <td><?php echo $this->escapeHtml($pago->codigoLote);?></td>
+	        <td><?php echo $this->escapeHtml($pago->Terreno->codigoLote);?></td>
+	        
+	        <td><?php echo $this->escapeHtml($pago->Terreno->lote);?></td>
 
 	        <td><?php echo $this->escapeHtml($pago->numeroCuota);?></td>
 
@@ -66,34 +70,35 @@ if ($this->errorMessages):
 
 	        <td><?php echo $this->escapeHtml($pago->saldoAFecha);?></td>
 
-	        <td><?php echo $this->escapeHtml($pago->nombresComprador . " " . $pago->apellidosComprador);?></td>
+	        <td><?php echo $this->escapeHtml($pago->Terreno->nombresComprador . " " . $pago->Terreno->apellidosComprador);?></td>
 
 	        <td style="text-align: center;">
     	        <?php if($pago->comprobante != ""):?>
     	        	<a uk-icon="icon: cloud-download" href="<?php echo $this->basePath() . "/comprobantes/" .$this->escapeHtml($pago->comprobante);?>" target="_blank">Descargar </a>
     	        <?php endif;?>
 	        </td>
+	        <td>
+    	        <a class="uk-button uk-button-danger" href=" 
+    	        <?php echo $this->url('admin', [
+                    'controller' => 'admin',
+    	            'action' => 'eliminar-pago',
+    	            'codTerreno' => $this->terreno->codTerreno,
+    	            'codPago' => $pago->codPago
+    	        ]); ?>">Eliminar Pago</a>
+			</td>
 	    </tr>
 	    <?php endforeach; ?>
 	    </tbody>
 	</table>
 
-	<?php
-         echo $this->paginationControl(
-
-             $this->pagos,
-
-             'sliding',
-
-             'partial/paginator.phtml',
-
-             array(
-                 'route' => 'pagos', 'action' => 'listar-pagos'
-             )
-         );
-     ?>
 <?php else: ?>
 	<div class="uk-container uk-padding" >
 		<h2>No se han encontrado resultados</h2>
+		
+		<a class="uk-button uk-button-primary" href="
+	        <?php echo $this->url('terrenos', [
+                'action' => 'generar-pago',
+	            'codTerreno' => $this->terreno->codTerreno
+            ]); ?>">Generar Pago</a>
 	</div>
 <?php endif;?>

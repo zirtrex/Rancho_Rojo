@@ -5,9 +5,9 @@ window.onload = function() {
 		
 		e.preventDefault();
 
-		UIkit.modal.confirm('¿Seguro de agregar el pago?', { labels: { ok: 'Si', cancel: 'No' }}).then(function (){
+		UIkit.modal.confirm('¿Seguro que desea enviar el formulario?', { labels: { ok: 'Si', cancel: 'No' }}).then(function (){
 			console.log('Si.');
-			var form = document.getElementById("PagoForm");	
+			var form = document.getElementsByTagName("form")[0];	
 			form.submit();
   			
        	}, function () {

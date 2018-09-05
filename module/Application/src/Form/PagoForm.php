@@ -69,6 +69,7 @@ class PagoForm extends Form
             'options' => array(
                 'label' => 'Forma de Pago',
                 'value_options' => [
+                    'Efectivo' => 'Efectivo',
                     'Cheque' => 'Cheque',
                     'Transferencia' => 'Transferencia',
                     'Tarjeta' => 'Tarjeta'
@@ -100,7 +101,6 @@ class PagoForm extends Form
             'name' => 'comprobante',
             'type' => 'Zend\Form\Element\File',
             'attributes' => array(
-                'required' => 'required',
                 'id' => 'comprobante',
                 'class' => 'form-control',
             )

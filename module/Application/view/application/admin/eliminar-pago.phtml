@@ -1,0 +1,25 @@
+<div class="uk-container" >
+<?php
+// module/Application/view/application/admin/eliminar-pago.phtml:
+$title = 'Eliminar pago';
+$url   = $this->url('admin', ['action' => 'eliminar-pago', 'codTerreno' => $codTerreno, 'codPago' => $codPago]);
+
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+
+<p>
+    ¿Seguro que quieres eliminar el Pago 
+    "<?= $this->escapeHtml($pago->codPago) ?>", número de cuota
+    "<?= $this->escapeHtml($pago->numeroCuota) ?>", monto de cuota 
+    "<?= $this->escapeHtml($pago->valor) ?>"?
+</p>
+
+<form action="<?= $url ?>" method="post">
+<div class="form-group">
+    <input type="hidden" name="id" value="<?= (int) $pago->codPago; ?>" />
+    <input type="submit" class="uk-button uk-button-danger" name="del" value="Si" />
+    <input type="submit" class="uk-button uk-button-success" name="del" value="No" />
+</div>
+</form>
+</div>

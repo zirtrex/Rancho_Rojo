@@ -106,6 +106,11 @@ class TerrenoFilter extends InputFilter
         ));
         
         $this->add(array(
+            'name' => 'vendido',
+            'required' => true,
+        ));
+        
+        $this->add(array(
             'name' => 'fechaVenta',
             'required' => true,
             'filters' => array(
@@ -129,7 +134,7 @@ class TerrenoFilter extends InputFilter
         ));
         
         $this->add(array(
-            'name' => 'cordenadas',
+            'name' => 'cedulaComprador',
             'required' => false,
             'filters' => array(
                 array(
@@ -137,18 +142,29 @@ class TerrenoFilter extends InputFilter
                 ),
                 array(
                     'name' => 'StringTrim'
-                )
+                )                
             ),
-            'validators' => array(
-                array(
+            'validators' => [
+                [
                     'name' => 'StringLength',
-                    'options' => array(
+                    'options' => [
                         'encoding' => 'UTF-8',
-                        'min' => 3,
-                        'max' => 45
-                    )
-                )
-            )
+                        'min' => 8,
+                        'max' => 10
+                    ],
+                    'break_chain_on_failure' => true,
+                ],
+                [
+                    'name' => 'Int', 
+                    'options' => [
+                        'min' => 0,
+                        'locale' => '<my_locale>',
+                        'messages' => array(
+                            \Zend\I18n\Validator\IsInt::NOT_INT => 'Por favor ingrese un número de cédula válido.',
+                        ),
+                    ],
+                ],
+            ]
         ));
         
         $this->add(array(

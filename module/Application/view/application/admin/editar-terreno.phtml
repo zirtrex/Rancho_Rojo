@@ -137,6 +137,17 @@ $form->prepare();
     			</div>
     		</div>
     		<div class="uk-margin">
+    			<?php echo $this->formLabel($form->get('vendido')) ?>
+    			<div class="">
+    				<?php echo $this->formSelect($form->get('vendido')); ?>
+    				<?php echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<div class="uk-text-danger">')
+                        ->setMessageSeparatorString('</div><div class="uk-text-danger">')
+                        ->setMessageCloseString('</div>')
+                        ->render($form->get('vendido'));?>
+    			</div>
+    		</div>
+    		<div class="uk-margin">
     			<?php echo $this->formLabel($form->get('fechaVenta')) ?>
     			<div class="">
     				<?php echo $this->formDate($form->get('fechaVenta')); ?>

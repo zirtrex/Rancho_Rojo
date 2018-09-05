@@ -63,7 +63,7 @@ class PagoFilter extends InputFilter
         $this->add([
             'type'     => 'Zend\InputFilter\FileInput',
             'name'     => 'comprobante',
-            'required' => true,
+            'required' => false,
             'validators' => [
                 new \Zend\Validator\File\Size('2MB'),
                 //new \Zend\Validator\File\Extension('csv'),

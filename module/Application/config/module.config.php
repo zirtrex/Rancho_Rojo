@@ -95,10 +95,11 @@ return [
             'admin' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/admin[/:action][/:codTerreno][/page/:page][/orderby/:orderby][/:order]',
+                    'route'    => '/admin[/:action][/codTerreno/:codTerreno][/codPago/:codPago][/page/:page][/orderby/:orderby][/:order]',
                     'constraints' => [
                         'action'        => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'codTerreno'    => '[0-9]+',
+                        'codPago'       => '[0-9]+',
                         'page'          => '[0-9]+',
                         'orderby'       => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'order'         => 'ASC|DESC'

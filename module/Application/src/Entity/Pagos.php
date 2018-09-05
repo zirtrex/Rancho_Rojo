@@ -1,6 +1,8 @@
 <?php 
 namespace Application\Entity;
 
+use Application\Entity\Terrenos;
+
 class Pagos
 {
     public $codPago;
@@ -11,6 +13,7 @@ class Pagos
     public $saldoAFecha;
     public $comprobante;
     public $codTerreno;
+    public $Terreno;
     public $codUsuario;
     public $fechaCreacion;
 
@@ -27,13 +30,15 @@ class Pagos
         $this->codUsuario       = !empty($data['codUsuario']) ? $data['codUsuario'] : null;
         $this->fechaCreacion    = !empty($data['fechaCreacion']) ? $data['fechaCreacion'] : null;
         
-        /*$this->Ubicacion = new Ubicacion();
+        $this->Terreno = new Terrenos();
         
-        $this->Ubicacion->codUbicacion  = !empty($data['codUbicacion']) ? $data['codUbicacion'] : null;
-        $this->Ubicacion->direccion     = !empty($data['direccion']) ? $data['direccion'] : null;
-        $this->Ubicacion->distrito      = !empty($data['distrito']) ? $data['distrito'] : null;
-        $this->Ubicacion->provincia     = !empty($data['provincia']) ? $data['provincia'] : null;
-        $this->Ubicacion->departamento  = !empty($data['departamento']) ? $data['departamento'] : null;*/
+        $this->Terreno->codTerreno          = !empty($data['codTerreno']) ? $data['codTerreno'] : null;
+        $this->Terreno->codLote             = !empty($data['codLote']) ? $data['codLote'] : null;
+        $this->Terreno->lote                = !empty($data['lote']) ? $data['lote'] : null;
+        $this->Terreno->nombresComprador    = !empty($data['nombresComprador']) ? $data['nombresComprador'] : null;
+        $this->Terreno->apellidosComprador  = !empty($data['apellidosComprador']) ? $data['apellidosComprador'] : null;
+        $this->Terreno->telefonoComprador   = !empty($data['telefonoComprador']) ? $data['telefonoComprador'] : null;
+        $this->Terreno->direccionComprador  = !empty($data['direccionComprador']) ? $data['direccionComprador'] : null;
     }
     
     public function getArrayCopy()

@@ -60,7 +60,9 @@ class Module implements ConfigProviderInterface
                 },
                 Model\PagosTableGateway::class => function ($container) {
                     $dbAdapter = $container->get(AdapterInterface::class);
-                    return new TableGateway('pagos', $dbAdapter, null);
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Entity\Pagos());
+                    return new TableGateway('pagos', $dbAdapter, null, $resultSetPrototype);
                 },                
                 
                 Factory\MailFactory::class => function ($container) {
@@ -170,7 +172,7 @@ class Module implements ConfigProviderInterface
             {
                 if($role == "user"){
                     
-                    $url = $e->getRouter()->assemble(array(), array('name' => 'home')); // Route que se debe dirigir si tiene sesión y es docente
+                    $url = $e->getRouter()->assemble(array(), array('name' => 'home')); // Route que se debe dirigir si tiene sesión y es usuario
                     
                     $response->getHeaders()->addHeaders(array(
                         array('Location' => $url)

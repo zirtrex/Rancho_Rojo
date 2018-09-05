@@ -53,6 +53,8 @@ return array(
                     'index'             => 'admin',
                     'agregar-terreno'   => 'admin',
                     'editar-terreno'    => 'admin',
+                    'editar-pago'       => 'admin',
+                    'eliminar-pago'     => 'admin',
                 ),      
                 
                 Application\Controller\IndexController::class => array(
@@ -61,7 +63,7 @@ return array(
                     'listar-lotes-por-manzana'  => ['admin', 'user'],
                     'listar-pagos'              => ['admin', 'user'],
                     'generar-pago'              => ['admin', 'user'],
-                    'generar-venta'             => ['admin', 'user'],
+                    'generar-venta'             => ['admin', 'user'],                    
                 ),
                 
                 Application\Controller\ReporteController::class => array(

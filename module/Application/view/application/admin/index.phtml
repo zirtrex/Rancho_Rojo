@@ -1,6 +1,36 @@
+<?php
+    if ($this->messages):
+        foreach ($this->messages as $msg):
+            ?>
+            <div class="uk-label-success uk-padding-small uk-margin"><?php echo $msg; ?></div>
+        <?php
+        endforeach;
+    endif;
+?>
+<?php
+if ($this->errorMessages):
+    foreach ($this->errorMessages as $msg):
+        ?>
+			<div class="uk-label-danger uk-padding-small uk-margin">
+				<?php echo $msg; ?>
+			</div>
+		<?php
+		endforeach;
+	endif;
+?>
+
 <div class="uk-container uk-padding">
-    <h2><a href="<?php echo $this->url('reportes', [
+	<h1>Acciones a Realizar</h1>
+	<p><a href="<?php echo $this->url('admin', [
+        'controller' => 'admin',
+        'action' => 'agregar-terreno',
+    ]); ?>" class="uk-button uk-button-secondary">Agregar un nuevo lote</a></p>
+    <p><a href="<?php echo $this->url('terrenos', [
+        'controller' => 'index',
+        'action' => 'listar-lotes',
+    ]); ?>" class="uk-button uk-button-secondary">Listado de lotes</a></p>
+    <p><a href="<?php echo $this->url('reportes', [
         'controller' => 'reporte',
         'action' => 'index',
-    ]); ?>" >Reporte total de terrenos</a></h2>
+    ]); ?>" class="uk-button uk-button-secondary">Reporte total de lotes</a></p>
 </div>
